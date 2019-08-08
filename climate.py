@@ -74,11 +74,33 @@ def tobs():
     return jsonify(tobs_list)
 
 
-@app.route("/api/v1.0/<start>")
-def start():
+@app.route("/api/v1.0/<start>/<end>")
+def startend(start, end):
+    results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).filter(Measurement.date >= start).filter(Measurement.date <= end).all()
 
-#@app.route("/api/v1.0/<end>")
-#def end():
+    stats_list = []
+
+    for Minimum, Average, Maximum in results:
+        stats_dict = {}
+        stats_dict['Minimum'] = Minimum
+        stats_dict['Average'] = Average
+        stats_dict['Maximum'] = Maximum
+        stats_list.append(stats_dict)
+    return jsonify(stats_list)
+
+@app.route("/api/v1.0/<start2>")
+def start(start2):
+    results = results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).filter(Measurement.date >= start2).all()
+
+    stats_list=[]
+
+    for Minimum, Average, Maximum in results:
+        stats_dict = {}
+        stats_dict['Minimum'] = Minimum
+        stats_dict['Average'] = Average
+        stats_dict['Maximum'] = Maximum
+        stats_list.append(stats_dict)
+    return jsonify(stats_list)
 
 if __name__ == "__main__":
     app.run(debug=True)
