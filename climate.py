@@ -39,6 +39,7 @@ def precipitation():
         precip_dict = {}
         precip_dict[Date] = Precipitation
         precipitation_list.append(precip_dict)
+    session.close()
     return jsonify(precipitation_list)
 
 @app.route("/api/v1.0/stations")
@@ -54,7 +55,9 @@ def stations():
         station_dict['Longitude'] = Longitude
         station_dict['Elevation'] = Elevation
         station_list.append(station_dict)
+    session.close()
     return jsonify(station_list)
+
 
 
 
@@ -71,6 +74,7 @@ def tobs():
         tobs_dict['Date'] = Date
         tobs_dict['TOBS'] = Tobs
         tobs_list.append(tobs_dict)
+    session.close()
     return jsonify(tobs_list)
 
 
@@ -86,6 +90,7 @@ def startend(start, end):
         stats_dict['Average'] = Average
         stats_dict['Maximum'] = Maximum
         stats_list.append(stats_dict)
+    session.close()
     return jsonify(stats_list)
 
 @app.route("/api/v1.0/<start2>")
@@ -100,6 +105,7 @@ def start(start2):
         stats_dict['Average'] = Average
         stats_dict['Maximum'] = Maximum
         stats_list.append(stats_dict)
+    session.close()
     return jsonify(stats_list)
 
 if __name__ == "__main__":
